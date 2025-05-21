@@ -11,6 +11,9 @@ public class Basketball : MonoBehaviour
     WaitForSeconds _returnTimer;
     bool _waitingForReturn;
 
+    [SerializeField] int _points = 1;
+    public int Points => _points;
+
     // Start is called before the first frame update
     void Start()
     {

@@ -5,8 +5,7 @@ using UnityEngine;
 
 public class BasketballNet : MonoBehaviour
 {
-    [SerializeField] 
-    BasketballHoop _hoop;
+    [SerializeField] BasketballHoop _hoop;
     Basketball _ball;
 
     private void Start()
@@ -17,10 +16,9 @@ public class BasketballNet : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.TryGetComponent<Basketball>(out _ball))
-            if (_ball == _hoop.GetCurrentBall)
-            {
-                UIManager.Instance.AddBasketballScore();
-            }
+        if (other.TryGetComponent<Basketball>(out _ball))
+        {
+            UIManager.Instance.AddBasketballScore(_ball.Points);
+        }
     }
 }

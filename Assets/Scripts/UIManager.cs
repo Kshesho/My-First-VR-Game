@@ -14,9 +14,9 @@ public class UIManager : MonoSingleton<UIManager>
         _basketballText.text = _basketballScore.ToString("00");
     }
 
-    public void AddBasketballScore()
+    public void AddBasketballScore(int points)
     {
-        _basketballScore++;
+        _basketballScore += points;
         _basketballText.text = _basketballScore.ToString("00");
     }
 }

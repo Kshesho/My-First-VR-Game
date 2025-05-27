@@ -3,29 +3,32 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-public class PistolController : MonoBehaviour
+[RequireComponent(typeof(AudioSource))]
+public abstract class FirearmController : MonoBehaviour
 {
     [SerializeField]
-    GameObject _muzzleFlashPrefab, _hitPrefab;
+    protected GameObject _muzzleFlashPrefab, _hitPrefab;
     [SerializeField]
-    Transform _rayOrigin;
+    protected Transform _rayOrigin;
     [SerializeField]
-    Vector3 _muzzleFlashOffset;
-    AudioSource _audio;
-    //[SerializeField]
-    //AudioClip _gunShotClip;
+    protected Vector3 _muzzleFlashOffset;
+    protected AudioSource _auSource;
+    [SerializeField] 
+    protected AudioClip _revolverAuClip;
 
-    private void Start()
+    protected virtual void Start()
     {
-        _audio = GetComponent<AudioSource>();
+        _auSource = GetComponent<AudioSource>();
     }
 
-    [ContextMenu("Test Fire")]
-    public void TriggerPull()
+    public abstract void TriggerPull();
+
+    protected void Fire()
     {
         Instantiate(_muzzleFlashPrefab, _rayOrigin.position + _muzzleFlashOffset, Quaternion.identity);
-        //if (_gunShotClip != null && _audio != null)
-            //_audio.PlayOneShot(_gunShotClip);
+
+        _auSource.pitch = Random.Range(0.5f, 0.8f);
+        _auSource.PlayOneShot(_revolverAuClip);
 
         if (Physics.Raycast(_rayOrigin.position, _rayOrigin.forward, out RaycastHit hit, Mathf.Infinity) && hit.transform.CompareTag("Target"))
         {

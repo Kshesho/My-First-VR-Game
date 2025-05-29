@@ -14,7 +14,7 @@ public abstract class FirearmController : MonoBehaviour
     protected Vector3 _muzzleFlashOffset;
     protected AudioSource _auSource;
     [SerializeField] 
-    protected AudioClip _revolverAuClip;
+    protected AudioClip _shotAuClip;
 
     protected virtual void Start()
     {
@@ -23,17 +23,21 @@ public abstract class FirearmController : MonoBehaviour
 
     public abstract void TriggerPull();
 
-    protected void Fire()
+    protected virtual void Fire()
     {
         Instantiate(_muzzleFlashPrefab, _rayOrigin.position + _muzzleFlashOffset, Quaternion.identity);
 
-        _auSource.pitch = Random.Range(0.5f, 0.8f);
-        _auSource.PlayOneShot(_revolverAuClip);
+        PlayFireAudio();
 
         if (Physics.Raycast(_rayOrigin.position, _rayOrigin.forward, out RaycastHit hit, Mathf.Infinity) && hit.transform.CompareTag("Target"))
         {
             Instantiate(_hitPrefab, hit.point, Quaternion.identity);
         }
+    }
+    protected virtual void PlayFireAudio()
+    {
+        _auSource.pitch = Random.Range(0.5f, 0.8f);
+        _auSource.PlayOneShot(_shotAuClip);
     }
 
     private void OnDrawGizmos()

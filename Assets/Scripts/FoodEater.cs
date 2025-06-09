@@ -6,11 +6,16 @@ using UnityEngine.XR.Interaction.Toolkit;
 public class FoodEater : MonoBehaviour
 {
 
-    [SerializeField] private XRSocketInteractor socketInteractor;
+    XRSocketInteractor _socketInteractor;
+
+    private void Start()
+    {
+        _socketInteractor = GetComponent<XRSocketInteractor>();
+    }
 
     public void EatFood()
     {
-        var currentFood = socketInteractor.interactablesHovered[0];
-        Destroy(currentFood.transform.gameObject);
+        var foodToEat = _socketInteractor.GetOldestInteractableSelected();
+        Destroy(foodToEat.transform.gameObject);
     }
 }

@@ -39,16 +39,16 @@ public class ExcavatorController : MonoBehaviour
             transform.Rotate(Vector3.up, _trackRotDirection *_trackRotSpeed * Time.deltaTime);
 
         //Rotate/Lift Arm
-        if (_armRotDirection > 0 && _arm.transform.rotation.eulerAngles.z < _armMaxLimit)
+        if (_armRotDirection > 0 && _arm.transform.localRotation.eulerAngles.z < _armMaxLimit)
             _arm.transform.Rotate(Vector3.forward, _armRotDirection * _equipRotSpeed * Time.deltaTime);
 
-        if (_armRotDirection < 0 && _arm.transform.rotation.eulerAngles.z > _armMinLimit)
+        if (_armRotDirection < 0 && _arm.transform.localRotation.eulerAngles.z > _armMinLimit)
             _arm.transform.Rotate(Vector3.forward, _armRotDirection * _equipRotSpeed * Time.deltaTime);
 
-        if (_arm.transform.rotation.eulerAngles.z > 350)
-            _arm.transform.rotation = Quaternion.Euler(0,0,_armMinLimit+.01f);
-        else if (_arm.transform.rotation.eulerAngles.z > _armMaxLimit)
-            _arm.transform.rotation = Quaternion.Euler(0, 0, _armMaxLimit-.01f);
+        if (_arm.transform.localRotation.eulerAngles.z > 350)
+            _arm.transform.localRotation = Quaternion.Euler(0,0,_armMinLimit+.01f);
+        else if (_arm.transform.localRotation.eulerAngles.z > _armMaxLimit)
+            _arm.transform.localRotation = Quaternion.Euler(0, 0, _armMaxLimit-.01f);
 
         //Rotate Cab
         if (_cabRotDirection != 0)

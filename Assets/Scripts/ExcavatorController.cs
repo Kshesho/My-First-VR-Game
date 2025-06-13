@@ -54,17 +54,17 @@ public class ExcavatorController : MonoBehaviour
         if (_cabRotDirection != 0)
             _cab.transform.Rotate(Vector3.up, _cabRotDirection * _equipRotSpeed * Time.deltaTime);
 
-        //Rotate/Lift Arm
-        if (_bucketRotDirection > 0 && _bucket.transform.rotation.eulerAngles.z < _bucketMaxLimit)
+        //Rotate Bucket
+        if (_bucketRotDirection > 0 && _bucket.transform.localRotation.eulerAngles.z < _bucketMaxLimit)
             _bucket.transform.Rotate(Vector3.forward, _bucketRotDirection * _equipRotSpeed * Time.deltaTime);
 
-        if (_bucketRotDirection < 0 && _bucket.transform.rotation.eulerAngles.z > _bucketMinLimit)
+        if (_bucketRotDirection < 0 && _bucket.transform.localRotation.eulerAngles.z > _bucketMinLimit)
             _bucket.transform.Rotate(Vector3.forward, _bucketRotDirection * _equipRotSpeed * Time.deltaTime);
 
-        if (_bucket.transform.rotation.eulerAngles.z > 350)
-            _bucket.transform.rotation = Quaternion.Euler(0, 0, _bucketMinLimit + .01f);
-        else if (_bucket.transform.rotation.eulerAngles.z > _bucketMaxLimit)
-            _bucket.transform.rotation = Quaternion.Euler(0, 0, _bucketMaxLimit - .01f);
+        if (_bucket.transform.localRotation.eulerAngles.z > 350)
+            _bucket.transform.localRotation = Quaternion.Euler(0, 0, _bucketMinLimit + .01f);
+        else if (_bucket.transform.localRotation.eulerAngles.z > _bucketMaxLimit)
+            _bucket.transform.localRotation = Quaternion.Euler(0, 0, _bucketMaxLimit - .01f);
     }
 
     public void MoveForward(float direction)
@@ -95,7 +95,13 @@ public class ExcavatorController : MonoBehaviour
 
     public void RotateBucket(float direction)
     {
-        if ((direction <= -0.1) || (direction >= -0.1))
-            _bucketRotDirection = direction;
+        //remap the 0-1 value so that 0.5 = 0, 0 = -1, and 1 = 1
+        float remappedDir = (direction - 0.5f) * 2f;
+
+        if (remappedDir < -0.5 || remappedDir > 0.5)
+        {
+            _bucketRotDirection = remappedDir;
+        }
+        else _bucketRotDirection = 0;
     }
 }
